@@ -1,60 +1,61 @@
-package demineurKk;
-
-import java.util.Random;
-
+package demineurkk;
 public class jeu {
-	
 	public String[][] table = new String[12][12];
 	public String[][] grille = new String[12][12];
 	public boolean fini = false;
 	public boolean gagne = false;
 	
 	
-	public String inco = "?";
-	public String mine = "*";
-	public String vide = "";
+	private String inco = "?";
+	private String mine = "*";
+	private String vide = " ";
 	
-	Random rand = new Random();
-	private int n;
-	private int casevidee;
+	
+	
 	
 	public jeu()
 	{
+		
 		int x = 0;
 		int y = 0;
 		
-		for ( x = 0; x < 12; x++) {
-			for(y = 0; y < 12 ; y++) 
+		
+		for ( x = 0; x < table.length; x++) {
+			for(y = 0; y < table[0].length; y++) 
 			{
-				 
-					table[x][y] = inco;
-					grille[x][y] = inco;
-				
+				 	if ((x == 0 || x == table.length -1)||(y == 0 || y == table[0].length -1)) {
+					table[x][y] = vide;
+					grille[x][y] = vide;
+				 	}else {
+						table[x][y] = inco;
+						grille[x][y] = inco;
+					}
 			}
+			
 		}
 	}
 
 	
 	public static void afficheJeu(String[][] str) 
 	{
-		for (int x = 0; x < 12; x++) 
+		for (int x = 1; x < str.length -1 ; x++) 
 		{
-			for(int y = 0; y < 12; y++)
+			for(int y = 0; y < str[0].length; y++)
 			{
 			
-				if( y > 0  && y < 12) 
+				if( y > 0  && y < str[0].length) 
 				
-					System.out.println("|");
+					System.out.print("|");
 				else 
 					System.out.println("");
-				System.out.println(str[x][y]);		
+				System.out.print(str[x][y]);		
 			}
 			
 		}
 	}
 	public void actualiser()
 	{
-		afficheJeu(table);
+		afficheJeu(grille);
 		System.out.println("");
 	}
 	public void placermines(int nbm) 
@@ -67,8 +68,8 @@ public class jeu {
 			x = (int)(10*Math.random());
 			y = (int)(10*Math.random());
 			
-			 if(x >= 1 && x <= 12){
-		          if(y >= 1 && y <= 12)
+			 if(x >= 1 && x <= 10){
+		          if(y >= 1 && y <= 10)
 		          {
 		        	  if(!table[x][y].equals(mine)) {
 		        		  table[x][y] = mine;  
@@ -86,26 +87,26 @@ public class jeu {
 	
 	public void affichecellulev() 
 	{
-		n = 0;
-			for(int x = 1 ; x <= 12; x++)
-			{
-				for(int y = 1 ; y <= 12; y++) 
-					{
-						if(table[x][y].equals(vide)==true) 
-						{
-							n = 0;
-							for(int i = (x - 1); i <= (x + 1); i++)
-							{
-					            for(int j = (y - 1); j <= (y + 1); j++)
-					            {
-					            	if(table[i][j].equals(mine) == true)
-					            		n++;
-					            }
-							}
-							grille[x][y]="" + n + "";
-						}	
-					}
-			}
+		
+		for(int x = 1; x < grille.length - 2; x++)
+		{     
+		      for(int y = 1; y < grille.length - 2; y++)
+		      {
+		        if(table[x][y].equals(vide) == true)
+		        {
+		          int nums = 0;                              
+		          for(int i = (x - 1); i <= (x + 1); i++)
+		          {
+		            for(int j = (y - 1); j <= (y + 1); j++)
+		            {
+		              if(table[i][j].equals(mine) == true)
+		                nums++;                              
+		            }
+		          }
+		          grille[x][y] = " " + nums + " ";
+		        }
+		      }
+		    }
 	}
 	public void jouer(int x, int y) {
 		if(table[x][y].equals(inco) == true)
@@ -123,26 +124,27 @@ public class jeu {
 		}
 	}
 	
-	public void gagne() {
-		casevidee = 0;
-	    for(int i = 0; i < 12; i++)
+	public void gagne() 
+	{
+		int casevidee = 0;
+	    for(int i = 0; i < table.length; i++)
 	    {
-	    	for(int j = 0; j < 12; j++)
+	    	for(int j = 0; j < table[0].length; j++)
 	    	{
 		        if(table[i][j].equals(inco) == true)
 		        	casevidee++;                  
 	    	}
 	    }
 	     if (casevidee != 0) 
-	     {
+	     
 	    	 gagne = false;
-	     }else
+	     else
 	     { 
 	    		 gagne = true;
 	    		 fini = true;
-	    }
+	     }	
 	    	 
-	     }
+	}
 	
 	public Boolean fini(){
 	    return fini;
@@ -152,11 +154,22 @@ public class jeu {
 	  public Boolean gagner(){
 	    return gagne;
 	  }
-	  
-	 
-}
-	
-	
-	
-	
+	  public void propag(int x, int y) 
+	  {
+		  for(int i = (x - 1); i <= (x + 1); i++)
+			{
+	            for(int j = (y - 1); j <= (y + 1); j++)
+	            {
+	            	if(table[i][j].equals(inco) == true)
+	            		table[i][j] = vide;
+	            		grille[i][j]=vide;
+	            		
+	            }
 
+			}
+	  }
+	  public void afficheGrill()
+	  {
+		  afficheJeu(table);
+	  }
+}
