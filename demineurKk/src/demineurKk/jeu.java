@@ -9,6 +9,8 @@ public class jeu {
 	private String inco = "?";
 	private String mine = "*";
 	private String vide = " ";
+	public String flag = "$";
+	
 	
 	
 	
@@ -121,6 +123,9 @@ public class jeu {
 		}else if (table[x][y].equals(vide) && grille[x][y].equals(vide)) {
 			fini = false;
 			System.out.println("cette case est vide");
+		}else if (table[x][y].equals(flag) && grille[x][y].equals(flag) ) {
+			fini = false;
+			System.out.println("cette case est marqué");
 		}
 	}
 	
@@ -172,4 +177,20 @@ public class jeu {
 	  {
 		  afficheJeu(table);
 	  }
+
+
+	public String getFlag() {
+		return flag;
+	}
+
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+	public void placerflag(int x, int y) 
+	{
+		grille[x][y] = " $ ";
+	    table[x][y] = " $ " ;
+	}
+	 
 }
