@@ -47,7 +47,7 @@ public class jeu {
 			
 				if( y > 0  && y < str[0].length) 
 				
-					System.out.print("|");
+					System.out.print("    |    ");
 				else 
 					System.out.println("");
 				System.out.print(str[x][y]);		
@@ -105,7 +105,7 @@ public class jeu {
 		                nums++;                              
 		            }
 		          }
-		          grille[x][y] = " " + nums + " ";
+		          grille[x][y] = "" + nums;
 		        }
 		      }
 		    }
